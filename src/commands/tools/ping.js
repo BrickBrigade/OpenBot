@@ -6,12 +6,14 @@ module.exports = {
 		.setDescription('Return my ping!'),
 	async execute(interaction, client) {
 		const message = await interaction.deferReply({
-			fetchReply: true
+			fetchReply: true,
 		});
 
-		const newMessage = `PONG!!!\nAPI Latency: ${client.ws.ping}\nClient Ping: ${message.createdTimestamp - interaction.createdTimestamp}`
+		const newMessage = `PONG!!!\nAPI Latency: ${client.ws.ping}\nClient Ping: ${
+			message.createdTimestamp - interaction.createdTimestamp
+		}`;
 		await interaction.editReply({
-			content: newMessage
+			content: newMessage,
 		});
-	}
-}
+	},
+};
