@@ -19,4 +19,3 @@ for (const folder of functionFolders) {
 client.handleEvents();
 client.handleCommands();
 client.login(token);
-client.login(token);
