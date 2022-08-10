@@ -6,7 +6,7 @@ module.exports = {
 		.setDescription('Returns an embed.'),
 	async execute(interaction, client) {
 		const embed = new EmbedBuilder()
-			.setTitle(`Thisis an EMBED!`)
+			.setTitle(`This is an EMBED!`)
 			.setDescription(`This is a very cool description!`)
 			.setColor(0x18e1ee)
 			.setImage(client.user.displayAvatarURL())

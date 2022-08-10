@@ -1,10 +1,10 @@
 module.exports = {
 	data: {
-		name: `sub-yt`,
+		name: `twitchPage`,
 	},
 	async execute(interaction, client) {
 		await interaction.reply({
-			content: `https://youtube.com/fusionterror`,
+			content: `https://www.twitch.tv/guineapiggamer2375`,
 		});
 	},
 };
