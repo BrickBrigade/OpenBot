@@ -3,7 +3,7 @@ const { token } = process.env;
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const fs = require('fs');
 
-const client = new Client({ intents: GatewayIntentBits.Guilds });
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages] });
 client.commands = new Collection();
 client.buttons = new Collection();
 client.commandArray = [];
@@ -20,4 +20,10 @@ for (const folder of functionFolders) {
 client.handleEvents();
 client.handleCommands();
 client.handleComponents();
+client.on('messageCreate', ()=>{
+	console.log('heard message.');
+});
+client.on('ready', ()=>{
+	console.log('I am ready!');
+});
 client.login(token);

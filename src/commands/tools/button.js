@@ -4,7 +4,7 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('button')
 		.setDescription('Return a button!'),
-	async execute(interaction, client) {
+	async execute(interaction) {
 		const button = new ButtonBuilder()
 			.setCustomId('twitchPage')
 			.setLabel('GPG Twitch')
