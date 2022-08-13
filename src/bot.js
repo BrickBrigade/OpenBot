@@ -3,12 +3,15 @@ const { token } = process.env;
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const fs = require('fs');
 
+// Build client object
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages] });
 client.commands = new Collection();
 client.buttons = new Collection();
 client.selectMenus = new Collection();
+client.modals = new Collection();
 client.commandArray = [];
 
+// Get functions including handlers
 const functionFolders = fs.readdirSync(`./src/functions`);
 for (const folder of functionFolders) {
 	const functionFiles = fs
@@ -18,13 +21,11 @@ for (const folder of functionFolders) {
 		require(`./functions/${folder}/${file}`)(client);
 }
 
+// Call functions
 client.handleEvents();
 client.handleCommands();
 client.handleComponents();
-client.on('messageCreate', ()=>{
-	console.log('heard message.');
-});
+client.login(token);
 client.on('ready', ()=>{
 	console.log('I am ready!');
 });
-client.login(token);

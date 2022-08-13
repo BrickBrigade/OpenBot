@@ -1,5 +1,6 @@
 const { readdirSync } = require('fs');
 
+// passed from bot.js
 module.exports = (client) => {
 	client.handleComponents = async () => {
 		const componentFolders = readdirSync(`./src/components`);
@@ -8,7 +9,8 @@ module.exports = (client) => {
 				(file) => file.endsWith('.js')
 			);
 
-			const { buttons, selectMenus } = client;
+			// from bot.js
+			const { buttons, selectMenus, modals } = client;
 
 			switch (folder) {
 				case 'buttons':
@@ -22,6 +24,12 @@ module.exports = (client) => {
 					for (const file of componentFiles) {
 						const menu = require(`../../components/${folder}/${file}`);
 						selectMenus.set(menu.data.name, menu);
+					}
+					break;
+				case 'modals':
+					for (const file of componentFiles) {
+						const modal = require(`../../components/${folder}/${file}`);
+						modals.set(modal.data.name, modal);
 					}
 					break;
 
