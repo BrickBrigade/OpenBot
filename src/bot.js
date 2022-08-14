@@ -26,6 +26,3 @@ client.handleEvents();
 client.handleCommands();
 client.handleComponents();
 client.login(token);
-client.on('ready', ()=>{
-	console.log('I am ready!');
-});

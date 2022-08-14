@@ -6,8 +6,8 @@ module.exports = {
 		.setDescription('Return a button!'),
 	async execute(interaction) {
 		const button = new ButtonBuilder()
-			.setCustomId('twitchPage')
-			.setLabel('GPG Twitch')
+			.setCustomId('btnExample')
+			.setLabel('Button #1')
 			.setStyle(ButtonStyle.Primary);
 		await interaction.reply({
 			components: [new ActionRowBuilder().addComponents(button)]

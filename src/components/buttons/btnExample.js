@@ -1,10 +1,10 @@
 module.exports = {
 	data: {
-		name: `twitchPage`,
+		name: `btnExample`,
 	},
 	async execute(interaction, client) {
 		await interaction.reply({
-			content: `https://www.twitch.tv/guineapiggamer2375`,
+			content: `https://example.com/`,
 		});
 	},
 };
