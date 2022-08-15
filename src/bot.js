@@ -1,10 +1,11 @@
 require('dotenv').config();
 const { token } = process.env;
-const { Client, Collection, GatewayIntentBits } = require('discord.js');
+const { Client, Collection, GatewayIntentBits, IntentsBitField } = require('discord.js');
 const fs = require('fs');
 
 // Build client object
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages] });
+const myIntents = new IntentsBitField();
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildVoiceStates] });
 client.commands = new Collection();
 client.buttons = new Collection();
 client.selectMenus = new Collection();
