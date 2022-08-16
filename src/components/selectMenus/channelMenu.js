@@ -7,7 +7,7 @@ module.exports = {
 		const obs = new OBSWebSocket();
 		const channelName = interaction.values.toString();
 		await obs.connect();
-		console.log(channelName);
+		console.log(`started watching ${channelName}`);
 		interaction.guild.channels.cache.find(
 			(channel) => channel.name === channelName
 		);
@@ -37,6 +37,11 @@ module.exports = {
 				obs.call('GetCurrentProgramScene').then((res) => {
 					interaction.editReply(`Switched to ${res.currentProgramSceneName}`);
 				});
+			}
+		});
+		await obs.on('CustomEvent', (e) => {
+			if (e.action === 'shutdown') {
+				obs.disconnect();
 			}
 		});
 		interaction.reply(`watching ${channelName}`);
