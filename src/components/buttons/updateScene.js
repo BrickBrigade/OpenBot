@@ -34,7 +34,7 @@ module.exports = {
 				return obsScenes;
 			});
 	
-			// console.log(sceneArray);
+			console.log(sceneArray);
 			if (sceneArray.includes(`group (${vcMemberListSize})`)) {
 				console.log('it is here');
 				await obs.call('SetCurrentProgramScene', {
@@ -50,7 +50,7 @@ module.exports = {
 			}
 			obs.disconnect();
 		} else {
-			interaction.reply('you must be in a voice channel to use this')
+			interaction.reply('you must be in a voice channel to use "Manual Update".')
 		}
 // 		const { default: OBSWebSocket } = require('obs-websocket-js');
 // 		const obs = new OBSWebSocket();
