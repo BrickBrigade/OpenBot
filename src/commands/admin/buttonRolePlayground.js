@@ -41,6 +41,17 @@ module.exports = {
 						.setDescription("a test string")
 						.setRequired(false)
 				)
+				.addNumberOption((option) =>
+					option
+						.setName("color")
+						.setDescription("color of the button")
+						.addChoices(
+							{ name: "red", value: 4 },
+							{ name: "green", value: 3 },
+							{ name: "blue", value: 1 },
+							{ name: "grey", value: 2 }
+						)
+				)
 		)
 		.addSubcommand((subcommand) =>
 			subcommand
@@ -94,28 +105,45 @@ module.exports = {
 			const newBtn = new ButtonBuilder()
 				.setCustomId(`roleButton-${roleId}`)
 				.setLabel(roleName)
-				.setStyle(ButtonStyle.Primary);
+				.setStyle(interaction.options.getNumber("color"));
+
+			if (label) {
 				newBtn.setLabel(label);
-			
+			}
+
 			if (message.author.id == client.user.id) {
 				console.log("msg by bot");
 				if (message.components.length == 1) {
-					console.log(message.components);
-					const row = new ActionRowBuilder()
-						.setComponents(message.components[0].components)
-						.addComponents(newBtn);
-					try {
-						await message.edit({ components: [row] });
-					} catch (error) {
-						console.error("That button already exists");
-						interaction.reply({
-							content: "That button already exists",
-							ephemeral: true,
-						});
-						return;
+					if (message.components[0].components.length < 5) {
+						console.log("less than 5 btns");
+						const row = new ActionRowBuilder()
+							.setComponents(message.components[0].components)
+							.addComponents(newBtn);
+						try {
+							await message.edit({ components: [row] });
+						} catch (error) {
+							console.error(error);
+							interaction.reply({
+								content: "That button already exists",
+								ephemeral: true,
+							});
+							return;
+						}
+						console.log(message.components);
+						// message.edit({ components: [row] });
+						interaction.reply({ content: "added", ephemeral: true });
+					} else if (message.components[0].components.length % 5 == 0) {
+						console.log("multiple of 5 detected. starting new row.");
+						const newRow = new ActionRowBuilder().addComponents(newBtn);
+						try {
+							await message.edit({
+								components: [...message.components, newRow],
+							});
+						} catch (error) {
+							console.error(error);
+						}
+						interaction.reply({ content: "added", ephemeral: true });
 					}
-					// message.edit({ components: [row] });
-					interaction.reply({ content: "added", ephemeral: true });
 				} else if (message.components.length == 0) {
 					const row = new ActionRowBuilder().addComponents(newBtn);
 					try {
@@ -151,8 +179,10 @@ module.exports = {
 			}
 		} else {
 			console.log("removing");
-			if ((message.components.length = 1)) {
-				const index = interaction.options.getNumber("index");
+			console.log(message.components.length);
+			const index = interaction.options.getNumber("index");
+			if (message.components.length == 1) {
+				console.log("has 1 row");
 				const btnArray = message.components[0].components;
 				const btnToRemove = btnArray[index];
 				console.log(btnToRemove);
@@ -165,6 +195,20 @@ module.exports = {
 					message.edit({ components: [row] });
 				} else {
 					message.edit({ content: message.content, components: [] });
+				}
+				interaction.reply({ content: "done", ephemeral: true });
+			} else if (message.components.length == 2) {
+				const btnArray = message.components[1].components;
+				const btnToRemove = btnArray[index - 5];
+				console.log(btnToRemove);
+				const newBtnArray = btnArray.filter(
+					(btn) => btn.custom_id != btnToRemove.custom_id
+				);
+				if (newBtnArray.length > 0) {
+					const row = new ActionRowBuilder().setComponents(newBtnArray);
+					message.edit({ components: [message.components[0], row] });
+				} else {
+					message.edit({ components: [message.components[0]] });
 				}
 				interaction.reply({ content: "done", ephemeral: true });
 			}
