@@ -3,12 +3,15 @@ const {
 	ButtonBuilder,
 	ButtonStyle,
 	ActionRowBuilder,
-	PermissionFlagsBits
+	PermissionFlagsBits,
 } = require("discord.js");
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles, PermissionFlagsBits.ManageMessages)
-		.setName("buttonroletest")
+		.setDefaultMemberPermissions(
+			PermissionFlagsBits.ManageRoles,
+			PermissionFlagsBits.ManageMessages
+		)
+		.setName("buttonrole")
 		.setDescription("a command to test methods of button role selection")
 		.addSubcommand((subcommand) =>
 			subcommand
@@ -58,14 +61,14 @@ module.exports = {
 				.addNumberOption((option) =>
 					option
 						.setName("index")
-						.setDescription("Position of button starting at 1")
+						.setDescription("Position of button starting at 0")
 						.setRequired(true)
 				)
 		),
 	roleId: "",
 	async execute(interaction, client) {
 		console.log("executing");
-		// const label = interaction.options.getString("label");
+		const label = interaction.options.getString("label");
 
 		const message = await interaction.options
 			.getChannel("channel")
@@ -92,7 +95,8 @@ module.exports = {
 				.setCustomId(`roleButton-${roleId}`)
 				.setLabel(roleName)
 				.setStyle(ButtonStyle.Primary);
-
+				newBtn.setLabel(label);
+			
 			if (message.author.id == client.user.id) {
 				console.log("msg by bot");
 				if (message.components.length == 1) {
