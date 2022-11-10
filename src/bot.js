@@ -1,11 +1,25 @@
-require('dotenv').config();
+require("dotenv").config();
 const { token } = process.env;
-const { Client, Collection, GatewayIntentBits, IntentsBitField } = require('discord.js');
-const fs = require('fs');
+const { Client, Collection, GatewayIntentBits } = require("discord.js");
+const fs = require("fs");
 
 // Build client object
-const myIntents = new IntentsBitField();
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildVoiceStates] });
+const {
+	Guilds,
+	GuildMessages,
+	GuildVoiceStates,
+	MessageContent,
+	GuildMessageReactions,
+} = GatewayIntentBits;
+const client = new Client({
+	intents: [
+		Guilds,
+		GuildMessages,
+		GuildVoiceStates,
+		MessageContent,
+		GuildMessageReactions,
+	],
+});
 client.commands = new Collection();
 client.buttons = new Collection();
 client.selectMenus = new Collection();
@@ -17,7 +31,7 @@ const functionFolders = fs.readdirSync(`./src/functions`);
 for (const folder of functionFolders) {
 	const functionFiles = fs
 		.readdirSync(`./src/functions/${folder}`)
-		.filter((file) => file.endsWith('.js'));
+		.filter((file) => file.endsWith(".js"));
 	for (const file of functionFiles)
 		require(`./functions/${folder}/${file}`)(client);
 }
